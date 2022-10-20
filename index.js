@@ -3,6 +3,21 @@
 */
 var score = 0;
 
+function getImageFromPexels(e){
+  let url = "https://api.pexels.com/v1/curated?page=3&per_page=40";
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  xhr.setRequestHeader('Authorization', '563492ad6f917000010000011d8afd772e054068975504c135f0c84a');
+  xhr.send();
+
+  xhr.addEventListener('load', function() {
+    let imagePexels = JSON.parse(xhr.response);
+    console.log(xhr.response);
+    console.log(imagePexels);
+    e.target.src = imagePexels.photos[1].src.small;
+  });
+}
+
 function init(){
   initGameUI();
   // getImageFromPixels();
@@ -63,7 +78,8 @@ function chestClicked(e){
   var val = placeTreasure();
 
   if (e.target.id == 'chest' + val){
-    e.target.src = '/images/crystal-scull.png';
+    //e.target.src = '/images/crystal-scull.png';
+    getImageFromPexels(e);
     score += 5;
     removeChestEvents();
   } else if (e.target.id !== 'chest' + val){
@@ -76,13 +92,12 @@ function chestClicked(e){
 // function getImageFromPixels(){
 //   // make a request towards pixels API and get 1 Diamond image
 //   // 563492ad6f917000010000011d8afd772e054068975504c135f0c84a
-//   import { createClient } from 'pexels';
-//   const client = createClient('563492ad6f917000010000011d8afd772e054068975504c135f0c84a');
-//   const query = 'Diamond';
+//   // import * as pexels from 'pexels';
 
-  
-//   client.photos.search({ query, per_page: 1 }).then(photos => {foreach.console.log(photos)});
+//   // const client = pexels.createClient('563492ad6f917000010000011d8afd772e054068975504c135f0c84a');
+//   // const query = 'Diamond';
 
+//   // client.photos.search({ query, per_page: 1 }).then(photos => {foreach.console.log(photos)});
 // }
 
 function refresh(){
